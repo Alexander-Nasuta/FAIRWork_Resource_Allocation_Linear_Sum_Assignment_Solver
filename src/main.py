@@ -917,7 +917,8 @@ if __name__ == '__main__':
 
 
     def cost_function(homogenized_data_dict: dict = None, order_dict: dict = None) -> float | str:
-        cost_supremum = 100_000
+        cost_supremum = 100_000  # cost for assigning a worker to a dummy task
+
         # handle dummy tasks
         if order_dict is None or homogenized_data_dict is None:
             return cost_supremum
@@ -971,7 +972,6 @@ if __name__ == '__main__':
     end_time_setup = time.perf_counter()
     setup_data_duration = end_time_setup - start_time_setup
 
-
     start_time_solver_setup = time.perf_counter()
     assignment = linear_sum_assignment.SimpleLinearSumAssignment()
 
@@ -1016,7 +1016,7 @@ if __name__ == '__main__':
                 f" Resil.: {homogenized_cell_dict['Worker resilience']:.2f}"
             )
             # sanity check
-            #log.info(f"{pprint.pformat(homogenized_cell_dict)}")
+            # log.info(f"{pprint.pformat(homogenized_cell_dict)}")
             if not homogenized_cell_dict["Availability"]:
                 raise ValueError(f"Woker {worker_id} is not available, but was assigned to a non dummy task.")
             if operator_availability[worker_id] is False:
